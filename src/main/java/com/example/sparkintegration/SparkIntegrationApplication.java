@@ -10,6 +10,8 @@ public class SparkIntegrationApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SparkIntegrationApplication.class, args);
+
+		
 	}
 
 }
