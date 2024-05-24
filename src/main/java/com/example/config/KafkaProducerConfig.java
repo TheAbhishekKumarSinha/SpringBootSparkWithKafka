@@ -1,5 +1,4 @@
 package com.example.config;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.kafka.support.serializer.StringOrBytesSerializer;
 
 import com.example.request.SparkRequest;
 
@@ -21,7 +21,9 @@ public class KafkaProducerConfig {
     
     @Bean
     public ProducerFactory<String, SparkRequest> producerFactory(){
-        return new DefaultKafkaProducerFactory<>(producerConf());
+        JsonSerializer<SparkRequest> jsonSerializer = new JsonSerializer<>();
+        jsonSerializer.setAddTypeInfo(true);
+        return new DefaultKafkaProducerFactory<>(producerConf(), new StringSerializer(), jsonSerializer);
     }
 
     @Bean
