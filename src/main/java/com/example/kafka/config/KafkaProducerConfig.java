@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.kafka.config;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +11,6 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.springframework.kafka.support.serializer.StringOrBytesSerializer;
 
 import com.example.spark.request.SparkRequest;
 import com.example.spark.response.SparkResponse;
