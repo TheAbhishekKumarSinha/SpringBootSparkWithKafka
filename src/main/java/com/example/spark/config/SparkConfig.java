@@ -1,8 +1,5 @@
 package com.example.spark.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.SparkSession;
 import org.springframework.context.annotation.Bean;
