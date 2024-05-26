@@ -16,6 +16,8 @@
 	<packaging>jar</packaging>
 	<properties>
 		<java.version>17</java.version>
+		<jakarta-servlet.version>4.0.3</jakarta-servlet.version>
+		<jersey.version>2.36</jersey.version>
 	</properties>
 	<dependencies>
 		<!-- <dependency>
@@ -34,6 +36,30 @@
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>commons-compiler</artifactId>
+			<version>3.0.8</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spark-integration</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>3.0.8</version>
 		</dependency>
 
 		<!-- <dependency>
@@ -57,24 +83,34 @@
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-buildpack-platform</artifactId>
-			<version>3.2.5</version>
-			<scope>runtime</scope>
+		<dependency>
+			<groupId>org.mongodb.spark</groupId>
+			<artifactId>mongo-spark-connector_2.12</artifactId>
+			<version>10.2.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-loader-tools</artifactId>
-			<version>3.2.5</version>
-		</dependency> -->
-		
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-core_2.12</artifactId>
+			<version>3.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-sql_2.12</artifactId>
+			<version>3.3.1</version>
+		</dependency>
 
-		<!-- <dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency> -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <!-- Exclude the log4j that conflict with log4j-spring-boot -->
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -93,9 +129,25 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.scalatest</groupId>
+				<artifactId>scalatest-maven-plugin</artifactId>
+				<version>${scalatest-maven-plugin.version}</version>
+				<configuration>
+					<argLine>
+						--add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+						--add-opens=java.base/java.nio=ALL-UNNAMED
+						--add-opens=java.base/java.util=ALL-UNNAMED
+						--add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+					</argLine>
+				</configuration>
+    		</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
+				<configuration>
+					<argLine>--add-exports java.base/sun.nio.ch=ALL-UNNAMED</argLine>
+				</configuration>
+				<!-- <executions>
 					<execution>
 						<id>copy-dependencies</id>
 						<phase>prepare-package</phase>
@@ -107,8 +159,8 @@
 								${project.build.directory}/libs
 							</outputDirectory>
 						</configuration>
-					</execution>
-				</executions>
+					</execution> 
+				</executions>-->
 			</plugin>
 		</plugins>
 	</build>
