@@ -27,8 +27,6 @@ public class KafkaController {
     @Autowired
     private KafkaProducers messageProducer;
 
-    @Autowired
-    private SparkMongoReader sparkMongoReader;
 
     @GetMapping("/top5year")
     public String sendMessage(@RequestParam("message") String message) {
@@ -41,7 +39,6 @@ public class KafkaController {
         ArrayList<OrderBy> list = new ArrayList<OrderBy>();
         list.add(OrderBy.builder().orderByColumn("").orderByDirection("ASC").build());
         messageProducer.sendToKafka(request);
-        sparkMongoReader.readFromMongoUsingSpark();
         return "Message sent: " + message;
     }
 
