@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kafka.producers.KafkaProducers;
+import com.example.spark.SparkMongoReader;
 import com.example.spark.request.CacheFilter;
 import com.example.spark.request.OrderBy;
 import com.example.spark.request.SparkRequest;
@@ -26,6 +27,9 @@ public class KafkaController {
     @Autowired
     private KafkaProducers messageProducer;
 
+    @Autowired
+    private SparkMongoReader sparkMongoReader;
+
     @GetMapping("/top5year")
     public String sendMessage(@RequestParam("message") String message) {
         //messageProducer.sendToKafka(message);
@@ -37,6 +41,7 @@ public class KafkaController {
         ArrayList<OrderBy> list = new ArrayList<OrderBy>();
         list.add(OrderBy.builder().orderByColumn("").orderByDirection("ASC").build());
         messageProducer.sendToKafka(request);
+        sparkMongoReader.readFromMongoUsingSpark();
         return "Message sent: " + message;
     }
 
