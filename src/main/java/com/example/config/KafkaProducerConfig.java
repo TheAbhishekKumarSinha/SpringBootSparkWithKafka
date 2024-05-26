@@ -13,7 +13,9 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.kafka.support.serializer.StringOrBytesSerializer;
 
-import com.example.request.SparkRequest;
+import com.example.spark.request.SparkRequest;
+import com.example.spark.response.SparkResponse;
+
 
 
 @Configuration
@@ -40,6 +42,20 @@ public class KafkaProducerConfig {
     public KafkaTemplate<String, SparkRequest> kafkaTemplate() {
         return new KafkaTemplate<String, SparkRequest>(producerFactory());
     }
+
+    @Bean
+    public ProducerFactory<String, SparkResponse> producerSparkResponseFactory(){
+        JsonSerializer<SparkResponse> jsonSerializer = new JsonSerializer<>();
+        jsonSerializer.setAddTypeInfo(true);
+        return new DefaultKafkaProducerFactory<>(producerConf(), new StringSerializer(), jsonSerializer);
+    }
+
+    @Bean
+    @Qualifier
+    public KafkaTemplate<String, SparkResponse> kafkaResponseTemplate() {
+        return new KafkaTemplate<String, SparkResponse>(producerSparkResponseFactory());
+    }
+
 
     // @Bean
     // public KafkaTemplate<String, byte[]> bytesTemplate(ProducerFactory<String, byte[]> pf) {

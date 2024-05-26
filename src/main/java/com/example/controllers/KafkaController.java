@@ -9,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kafka.producers.KafkaProducers;
-import com.example.request.CacheFilter;
-import com.example.request.OrderBy;
-import com.example.request.SparkRequest;
+import com.example.spark.request.CacheFilter;
+import com.example.spark.request.OrderBy;
+import com.example.spark.request.SparkRequest;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 
 
